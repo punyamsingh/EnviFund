@@ -49,18 +49,22 @@ reissue them:
 5. **Supabase anon key** — rotate from the Supabase dashboard if RLS coverage is
    not certain.
 
-## Client-bundle exposure (`NEXT_PUBLIC_`)
-
-Several **server-only** secrets are read through `NEXT_PUBLIC_*` env vars:
-
-- `NEXT_PUBLIC_RAZORPAY_SECRET` (used only in `src/pages/api/payment/razorpay.js`)
-- `NEXT_PUBLIC_GOOGLE_CLIENT_SECRET` (used only in the NextAuth route)
-- `NEXT_PUBLIC_JWT_SECRET` (used only in the NextAuth route)
+## Client-bundle exposure (`NEXT_PUBLIC_`) — fixed in code
 
 In Next.js, any `NEXT_PUBLIC_*` value is **inlined into the client JavaScript
-bundle** and shipped to every visitor. These three should drop the
-`NEXT_PUBLIC_` prefix (they are only used in server-side API routes, so the code
-change is safe) and the matching env vars must be renamed in Vercel.
+bundle** and shipped to every visitor. Three **server-only** secrets were being
+read through `NEXT_PUBLIC_*` env vars and have now been renamed to drop the
+prefix (they are only used in server-side API routes, so the change is safe):
+
+| Old (bundled to browser) | New (server-only) | Used in |
+| --- | --- | --- |
+| `NEXT_PUBLIC_RAZORPAY_SECRET` | `RAZORPAY_SECRET` | `src/pages/api/payment/razorpay.js` |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_SECRET` | `GOOGLE_CLIENT_SECRET` | NextAuth route |
+| `NEXT_PUBLIC_JWT_SECRET` | `JWT_SECRET` | NextAuth route |
+
+> ⚠️ **Action required in Vercel:** rename these three env vars to match, or
+> auth and payments will break on the next deploy. See `.env.example` for the
+> full, corrected variable list.
 
 ## Preventing future leaks
 - `.gitignore` has been hardened to cover all `.env*` variants, private keys
