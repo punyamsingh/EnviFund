@@ -9,7 +9,7 @@ export default async function handler(req,res) {
     // Initialize razorpay object
     const razorpay = new Razorpay({
       key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
-      key_secret: process.env.NEXT_PUBLIC_RAZORPAY_SECRET,
+      key_secret: process.env.RAZORPAY_SECRET,
     });
 
     // Create an order -> generate the OrderID -> Send it to the Front-end

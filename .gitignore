@@ -6,7 +6,6 @@
 .pnp.js
 .yarn/install-state.gz
 
-*.env
 # testing
 /coverage
 
@@ -19,15 +18,12 @@
 
 # misc
 .DS_Store
-*.pem
+desktop.ini
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# local env files
-.env*.local
 
 # vercel
 .vercel
@@ -35,3 +31,32 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ---------------------------------------------------------------------------
+# secrets & credentials -- NEVER commit any of these
+# ---------------------------------------------------------------------------
+# env files (every variant)
+.env
+.env.*
+*.env
+# ...but keep the no-secrets template
+!.env.example
+
+# private keys & certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.pkcs12
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+
+# cloud / service-account credential files
+*service-account*.json
+*serviceaccount*.json
+*credentials*.json
+gcp-*.json
+google-credentials*.json
+instant-edudoc.json
